@@ -1,3 +1,7 @@
+<?php 
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,19 +19,16 @@
 			</section>
 		</div>
 		<div class="right">
-			<form>
-				<section class="copy">
-					<h2>SignUp</h2>
-					<div class="login-container">
-						<p>Already have an account? <a href="login.php"><strong>Log In</strong></a></p>
 
+			<form action="core/auth.php" method="POST">
+				<section class="copy">
+					<h2>Loign</h2>
+					<div class="login-container">
+						<p>Doesn't have an account yet? <a href="login.php"><strong>Sign Up</strong></a> here</p>
+						
 					</div>
 				</section>
 
-				<div class="frm-inpt name">
-					<label>Full Name:</label>
-					<input type="text" name="name">
-				</div>
 				<div class="frm-inpt email">
 					<label>Email Address:</label>
 					<input type="email" name="email">
@@ -40,20 +41,8 @@
 					</span> -->
 				</div>
 
-				<div class="frm-inpt ck-box">
-					<label class="checkbox-container">
-						<input type="checkbox" name="subcribe">
-						<span class="checkmark"></span>
-						Sign up for email updates.
-					</label>
-				</div>
-				<button class="btn-submit" type="submit">Sign Up</button>
-				<section class="copy legal">
-					<p><span class="small">
-						By continuing, you agree to accept our <br > 
-						<a href="#">Privacy</a> &amp; <a href="#">Terms of conditions</a></span></p>
-					</span>
-				</section>
+				<button class="btn-submit" type="submit" name="login">Log in</button>
+				
 			</form>
 		</div>
 	</div>

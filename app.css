@@ -29,6 +29,11 @@ a{
 a:hover{
 	text-decoration: underline;
 }
+
+.text-error {
+	color:red;
+}
+
 .small {
 	font-size: 80%;
 	text-align: center;
