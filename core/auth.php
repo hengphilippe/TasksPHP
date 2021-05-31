@@ -30,10 +30,11 @@ require_once('database.php');
 			header("Location: ../register.php");
 		}
 
+	}
 
 	/// login
-	if(isset($_POST['login'])) {
-		echo "Doing login";
+	if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['login'])) {
+
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 
@@ -44,10 +45,12 @@ require_once('database.php');
 		$handler->bindValue(':password', md5($password));
 		$handler->execute();
 		$user = $handler->fetch();
-
-		print_r($user);
-	}
-
+		if($user) {
+			header("Location: ../app/dashboard.php");
+		}else {
+			echo "something wrong";
+		}
+		
 	}
 	
 ?>
