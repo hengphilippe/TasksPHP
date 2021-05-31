@@ -48,6 +48,9 @@ require_once('database.php');
 		if($user) {
 			header("Location: ../app/dashboard.php");
 		}else {
+			// response error to login while invalid user
+			// 1. redirect to login page with message error
+			// 2. display message error to screen
 			echo "something wrong";
 		}
 		
