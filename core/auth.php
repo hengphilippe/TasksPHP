@@ -1,6 +1,7 @@
 <?php 
 
 session_start();
+
 require_once('database.php');
 	
 	/// register
@@ -46,12 +47,20 @@ require_once('database.php');
 		$handler->execute();
 		$user = $handler->fetch();
 		if($user) {
+			$_SESSION['user'] = array(
+				'id' =>  $user->id,
+				'name' => $user->name,
+				'email' => $user->email
+				 );
+			
 			header("Location: ../app/dashboard.php");
 		}else {
 			// response error to login while invalid user
 			// 1. redirect to login page with message error
 			// 2. display message error to screen
-			echo "something wrong";
+			// $_SESSION['error'] = "Error 401! Please login first in order to access that.";
+			$_SESSION['error'] = "Invalid email or password.";
+			header("Location: ../login.php");
 		}
 		
 	}

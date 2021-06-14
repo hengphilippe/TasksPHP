@@ -37,3 +37,19 @@ create table tasks (
 -- // dummy categories
 INSERT INTO categories(name, description, icons, color_hex,user_created) VALUES ('school', 'daily tasks & assignment', 'school', '#d0efff', 1);
 INSERT INTO categories(name, description, icons, color_hex,user_created) VALUES ('work', 'daily tasks to be done at office', 'work', '#2a9df4', 1);
+
+
+-- // dummy tasks
+INSERT INTO tasks(title, due_date, cat_id, user_created) VALUES ('Drop user account resign','2021-06-16 10:00:00',3,1);
+
+-- // select count task group by categories
+SELECT  b.* ,a.cat_id,count(a.id) total_task
+FROM    tasks a
+        LEFT JOIN categories b
+            on a.cat_id = b.id
+WHERE  a.user_created = 1
+GROUP BY a.cat_id;
+
+
+
+

@@ -44,7 +44,14 @@ session_start();
 				<button class="btn-submit" type="submit" name="login">Log in</button>
 				
 			</form>
+
+			
 		</div>
+		<?php if(isset($_SESSION['error'])){
+				echo "<p style='color:red;'>" . $_SESSION['error'] . "</p>";
+				unset($_SESSION['error']);
+				} 
+			?>
 	</div>
 </body>
 </html>	
