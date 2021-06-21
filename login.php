@@ -24,7 +24,7 @@ session_start();
 				<section class="copy">
 					<h2>Loign</h2>
 					<div class="login-container">
-						<p>Doesn't have an account yet? <a href="login.php"><strong>Sign Up</strong></a> here</p>
+						<p>Doesn't have an account yet? <a href="register.php"><strong>Sign Up</strong></a> here</p>
 						
 					</div>
 				</section>
@@ -47,8 +47,13 @@ session_start();
 
 			
 		</div>
+		<?php if(isset($_SESSION['success_register'])){
+				echo "<div class='text-success'><p>" . $_SESSION['success_register'] . "</p></div>";
+				unset($_SESSION['success_register']);
+				} 
+			?>
 		<?php if(isset($_SESSION['error'])){
-				echo "<p style='color:red;'>" . $_SESSION['error'] . "</p>";
+				echo "<div class='text-error'><p >" . $_SESSION['error'] . "</p></div>";
 				unset($_SESSION['error']);
 				} 
 			?>

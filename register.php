@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,23 +24,28 @@ session_start();
 					<h2>SignUp</h2>
 					<div class="login-container">
 						<p>Already have an account? <a href="login.php"><strong>Log In</strong></a></p>
-						<p class="text-error"><?php if(isset($_SESSION['error'])) {
-							echo $_SESSION['error'];
-						} ?></p>
+						<p class="text-error"><?php if(isset($_SESSION['error_message'])) {
+							foreach($_SESSION['error_message'] as $key => $value){
+								echo'-  '. $value.'<br>';
+							}
+						}
+						unset($_SESSION['error_message']);
+						?></p>
 					</div>
 				</section>
 
 				<div class="frm-inpt name">
-					<label>Full Name:</label>
-					<input type="text" name="name">
+					<label for="name">Full Name:</label>
+					<input type="text" name="name" required>
 				</div>
 				<div class="frm-inpt email">
 					<label>Email Address:</label>
-					<input type="email" name="email">
+					<input type="text" name="email" >
 				</div>
 				<div class="frm-inpt password">
-					<label>Password:</label>
-					<input type="password" name="password">
+					<label for="password">Password:</label>
+					<input type="password" name="password" required>
+					<p style="font-size: 12px;">Example: ASdf123!@#</p>
 					<!-- <span class="material-icons-outlined">
 					visibility
 					</span> -->
