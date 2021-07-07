@@ -83,9 +83,9 @@ $tasks = $handler->fetchAll();
                 	<?php foreach ($tasks as $task) : ?>
                 		<a class="list" href="#">
 	                        <div class="detail">
-	                            <p class="task"><?= $task->title; ?> </p>
-	                            <p class="duedate "><?= $task->due_date; ?></p>
-	                            <p><span class="tag work"><?= $task->cat_id ?></span></p>
+	                            <p class="task"><?= $task['title']; ?> </p>
+	                            <p class="duedate "><?= $task['due_date']; ?></p>
+	                            <p><span class="tag work"><?= $task['cat_id'] ?></span></p>
 	                        </div>
 	                        <div class="action">
 	                            <input type="checkbox">

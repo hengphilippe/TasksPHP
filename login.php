@@ -1,6 +1,8 @@
 <?php 
 session_start();
-
+require_once('config.php');
+$helper = $fb->getRedirectLoginHelper();
+	$loginUrl = $helper->getLoginUrl('http://localhost:8080/TasksPHP/app/dashboard.php', $permissions);
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,8 +11,11 @@ session_start();
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="app.css">
+
 </head></html>
 <body>
+	<div id="fb-root"></div>
+
 	<div class="split-screen">
 		<div class="left">
 			<section class="copy">
@@ -24,11 +29,19 @@ session_start();
 				<section class="copy">
 					<h2>Loign</h2>
 					<div class="login-container">
-						<p>Doesn't have an account yet? <a href="login.php"><strong>Sign Up</strong></a> here</p>
+						<p>Doesn't have an account yet? <a href="register.php"><strong>Sign Up</strong></a> here</p>
 						
 					</div>
 				</section>
-
+				<?php if(isset($_SESSION['success_register'])){
+					echo "<p style='color:red;'>" . $_SESSION['success_register'] . "</p>";
+					unset($_SESSION['success_register']);
+					}
+					if(isset($_SESSION['error_register'])){
+						echo "<p style='color:red;'>" . $_SESSION['success_register'] . "</p>";
+						unset($_SESSION['error_register']);
+					}
+				?>
 				<div class="frm-inpt email">
 					<label>Email Address:</label>
 					<input type="email" name="email">
@@ -40,12 +53,15 @@ session_start();
 					visibility
 					</span> -->
 				</div>
+					<button style="margin:5px" class="btn-submit" type="submit" name="login">Log in</button>
+					<p class="text2" style="font-size: 16px; font-family: 'Roboto Slab', serif; position: static; text-align: center; left: 40%; color: gray">or login with</p>
+					<?php echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';?>
+					<!-- <button style="margin:5px" onclick="window.location=echo''" class="btn-submit" type="submit" name="loginwithfacebook">Facebook</button> -->
+					
+					<!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+					 -->
 
-				<button class="btn-submit" type="submit" name="login">Log in</button>
-				
 			</form>
-
-			
 		</div>
 		<?php if(isset($_SESSION['error'])){
 				echo "<p style='color:red;'>" . $_SESSION['error'] . "</p>";

@@ -1,5 +1,4 @@
 <?php 
-
 session_start();
 require_once('../core/database.php');
 
@@ -13,10 +12,10 @@ if(!isset($_SESSION['user'])) {
 // get user auth id
 $user_id =  $_SESSION['user']['id'];
 // 
-$sql_all = "SELECT count(1) total FROM tasks where user_created = $user_id";
+$sql_all = "SELECT count(1) total FROM tasks where user_created =$user_id";
 $handler_all = $conn->query($sql_all);
-$allTasks = $handler_all->fetch();
-print_r($allTasks->total);
+$allTasks = $handler_all->fetch(PDO::FETCH_ASSOC);
+
 $sql = "SELECT b.* ,a.cat_id,count(a.id) total_task FROM tasks a LEFT JOIN categories b on a.cat_id = b.id WHERE  a.user_created = $user_id GROUP BY a.cat_id";
 
 $handler = $conn->query($sql);
@@ -62,7 +61,7 @@ $categories = $handler->fetchAll();
                             </span>
                             
                             <h4>ALL</h4>
-                            <p><?= $allTasks->total ?> Tasks</p>
+                            <p><?= $allTasks['total'] ?> Tasks</p>
                         </a>
                     </li>
 
@@ -72,8 +71,8 @@ $categories = $handler->fetchAll();
 	                            <span class="material-icons">
 	                                <?= $category->icons ?>
 	                            </span>
-	                            <h4><?= strtoupper($category->name) ?></h4>
-	                            <p><?= $category->total_task ?> Tasks</p>
+	                            <h4><?= strtoupper($category['name']) ?></h4>
+	                            <p><?= $category['total_task'] ?> Tasks</p>
 	                        </a>
                     	</li>
                     <?php endforeach; ?>
