@@ -45,7 +45,7 @@ if (isset($accessToken)) {
 
 		$fb->setDefaultAccessToken($_SESSION['facebook_access_token']);
 	}
-
+	//b
 	// validating the access token
 	try {
 		$request = $fb->get('/me');
