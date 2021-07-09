@@ -16,7 +16,7 @@ $user_id =  $_SESSION['user']['id'];
 $sql_all = "SELECT count(1) total FROM tasks where user_created = $user_id";
 $handler_all = $conn->query($sql_all);
 $allTasks = $handler_all->fetch();
-print_r($allTasks->total);
+// print_r($allTasks->total);
 $sql = "SELECT b.* ,a.cat_id,count(a.id) total_task FROM tasks a LEFT JOIN categories b on a.cat_id = b.id WHERE  a.user_created = $user_id GROUP BY a.cat_id";
 
 $handler = $conn->query($sql);
@@ -37,16 +37,19 @@ $categories = $handler->fetchAll();
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
+    
     <div class="app">
+
         <div class="container">
             <!-- //Menu -->
             <div class="menu">
                 <span class="material-icons">
                     segment
-                    </span>
-
+                </span>
+                
             </div>
-            <a href="../logout.php">logout</a>
+
+
             <!-- //Heading -->
             <div class="heading">
                 <h2>Lists</h2>
@@ -126,11 +129,11 @@ $categories = $handler->fetchAll();
             </div>
 
             <!-- //Add <button></button> -->
-            <div class="addnew">
+            <a class="addnew" href="./add-task.php">
                 <span class="material-icons">
                     add
                 </span>
-            </div>
+            </a>
         </div>
     </div>
 </body>
