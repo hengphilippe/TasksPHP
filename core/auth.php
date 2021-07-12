@@ -35,7 +35,7 @@ require '../vendor/autoload.php';
 		$mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
 		$mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 		$mail->Username   = 'taingchhayse106@gmail.com';                     //SMTP username
-		$mail->Password   = '199920691194210161';                               //SMTP password
+		$mail->Password   = '123456789';                               //set your email pw here , mine just a demo 
 		$mail->SMTPSecure = "tls";            //Enable implicit TLS encryption
 		$mail->Port       = 587;    
 		
