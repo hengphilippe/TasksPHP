@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'f59ae78af7653262833e9ebac87c13aedeab9abc',
+        'name' => '__root__',
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'f59ae78af7653262833e9ebac87c13aedeab9abc',
+            'dev_requirement' => false,
+        ),
+        'facebook/graph-sdk' => array(
+            'pretty_version' => '5.7.0',
+            'version' => '5.7.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../facebook/graph-sdk',
+            'aliases' => array(),
+            'reference' => '2d8250638b33d73e7a87add65f47fabf91f8ad9b',
+            'dev_requirement' => false,
+        ),
+        'zohocrm/php-sdk-archive' => array(
+            'pretty_version' => '2.2.1',
+            'version' => '2.2.1.0',
+            'type' => 'sdk',
+            'install_path' => __DIR__ . '/../zohocrm/php-sdk-archive',
+            'aliases' => array(),
+            'reference' => 'b389382181b87d96a4c2cf331a315bd868e90249',
+            'dev_requirement' => false,
+        ),
+    ),
+);

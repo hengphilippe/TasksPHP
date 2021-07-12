@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
 :root{
 	font-size: 100%;
 	font-size: 16px;
@@ -56,7 +55,7 @@ a:hover{
 	background: linear-gradient(
 		rgba(0, 0, 0, 0),
 		rgba(0, 0, 0, 0)),
-		url('https://blog.inlumi.com/hubfs/blog/task-manager.jpg');
+		url('https://www.incimages.com/uploaded_files/image/1920x1080/getty_655998316_2000149920009280219_363765.jpg');
 	background-size: cover;
 
 }
@@ -107,7 +106,6 @@ label {
 	top:42px;
 	right: 16px;
 }
-
 
 .checkbox-container input {
 	position: absolute;
@@ -164,7 +162,6 @@ label {
 	transform: rotate(45deg);
 }
 
-
 .btn-submit {
 	display: block;
 	width: 100%;
@@ -174,17 +171,40 @@ label {
 	font-size: .87rem;
 	border-radius: 8px;
 	border: 1px solid var(--primary-blue);
+	/*right: 16px;
 	/*text-transform: uppercase;*/
 	/*latter-spacing: 0.5px;*/
 	padding: 1rem;
 	cursor: pointer;
 }
-
 .btn-submit:hover {
 	color: var(--primary-blue);
 	background-color: white;
-
 }
+.btn-fb {
+	display: block;
+	width: 100%;
+	background-color: var(--primary-blue);
+	color: white;
+	font-weight: 600;
+	font-size: .87rem;
+	border-radius: 8px;
+	border: 1px solid var(--primary-blue);
+	/*right: 16px;
+	/*text-transform: uppercase;*/
+	/*latter-spacing: 0.5px;*/
+	padding: 1rem;
+	cursor: pointer;
+} 
+
+.facebook {
+	text-align: center !important;
+    background: green  !important;
+    padding: 10px  !important;
+    border-radius: 5px  !important;
+    color: #fff  !important;
+}
+
 
 
 

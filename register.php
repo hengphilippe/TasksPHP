@@ -30,7 +30,13 @@ session_start();
 						} ?></p>
 					</div>
 				</section>
-
+					<?php if(isset($_SESSION['error_message'])){
+							foreach($_SESSION['error_message']as $error){
+								echo("<p style='color:red;'>".$error."</p>");
+								unset($_SESSION['error_message']);
+							}
+						} 
+					?>
 				<div class="frm-inpt name">
 					<label>Full Name:</label>
 					<input type="text" name="name">
