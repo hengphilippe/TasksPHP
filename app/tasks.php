@@ -12,28 +12,22 @@ if(!isset($_SESSION['user'])) {
 $user_id =  $_SESSION['user']['id'];
 $category_id = (isset($_GET['category'])) ? $_GET['category'] : 0;
 
-// get category desc
-if($category_id !== 0) {
-    $query_cat = "SELECT * FROM categories where id = :id"; 
-    $handler_cat = $conn->prepare($query_cat);
-    $handler_cat->bindParam(":id",$category_id);
-    $handler_cat->execute();
-    $desc_cat = $handler_cat->fetch();
+if ($category_id !== 0) {
+$query_cat = "SELECT * FROM categories WHERE id = :id";
+$handler_cat = $conn->prepare($query_cat);
+$handler_cat->bindParam(":id",$category_id);
+$handler_cat->execute();
+$desc_cat = $handler_cat->fetch();
 }
 // print_r($desc_cat);
-
-$where_query = ($category_id == 0) ? 
-                "WHERE tasks.user_created=$user_id" : 
+ 
+$where_query = ($category_id == 0) ? "WHERE tasks.user_created=$user_id" : 
 				"WHERE tasks.user_created=$user_id AND tasks.cat_id=$category_id";
-
-$sql = "SELECT tasks.*, categories.name FROM tasks LEFT JOIN categories 
-        ON tasks.cat_id = categories.id 
-        $where_query";
-
+$sql = "SELECT tasks.*, categories.name, categories.color_hex FROM tasks LEFT JOIN categories ON tasks.cat_id = categories.id $where_query";
 $handler = $conn->query($sql);
 $tasks = $handler->fetchAll();
 
-// echo "<pre>" . print_r($tasks,1) . "</pre>";
+// print_r($tasks);
 
 ?>
 
@@ -44,13 +38,12 @@ $tasks = $handler->fetchAll();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
+     <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
     rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> 
 </head>
 <body>
-    <div class="app category bg-primary">
+    <div class="app category" style="background-color: <?= $desc_cat->color_hex ?>">
         <div class="container">
             <div class="menu">
                 <a href="./dashboard.php">
@@ -63,18 +56,18 @@ $tasks = $handler->fetchAll();
                     </span>
             </div>
             <div class="sub-heading">
-                <?php if($category_id !== 0) : ?>
-                    <span class="material-icons">
-                        <?= $desc_cat->icons ?>
-                    </span>
-                    <h4><?= strtoupper($desc_cat->name) ?></h4>
-                <?php else : ?>
-                    <span class="material-icons">
-                        list_alt
-                    </span>
-                    <h4>ALL</h4>
-                <?php endif; ?>
-                <p><?= count($tasks); ?> Tasks</p>
+                <?php if($category_id !== 0) :?>
+                <span class="material-icons">
+                    <?= $desc_cat->icons ?>
+                </span>
+                <h4><?= strtoupper($desc_cat->name)?></h4>
+                <?php  else :?>
+                   <span class="material-icons">
+                    list_alt
+                </span>
+                <h4>All</h4>
+                    <?php  endif; ?>
+                        <p><?= count($tasks); ?>Tasks</p>
             </div>
         </div>
 
@@ -108,17 +101,44 @@ $tasks = $handler->fetchAll();
 	                        <div class="detail">
 	                            <p class="task"><?= $task->title; ?> </p>
 	                            <p class="duedate "><?= $task->due_date; ?></p>
-	                            <p style="color: #fff"><span class="tag work" >
-                                    <?= $task->name ?>
-                                        
-                                    </span></p>
+	                            <p><span class="tag work" style="color: <?= $task->color_hex; ?>; "><?= $task->name; ?></span></p>
 	                        </div>
 	                        <div class="action">
 	                            <input type="checkbox" value="<?= $task->id ?>">
 	                        </div>
                     	</a>
                 	<?php endforeach; ?>
-
+                    <!-- <a class="list" href="newtask.html">
+                        <div class="detail">
+                            <p class="task">Buying Coffee</p>
+                            <p class="duedate ">08:15 AM</p>
+                            <p><span class="tag home">Home</span></p>
+                        </div>
+                        <div class="action">
+                            <input type="checkbox">
+                        </div>
+                    </a>
+                    <a class="list" href="newtask.html">
+                        <div class="detail">
+                            <p class="task">Upgrade Oracle Database Server</p>
+                            <p class="duedate ">10:00 AM</p>
+                            <p><span class="tag work">Work</span></p>
+                        </div>
+                        <div class="action">
+                            <input type="checkbox">
+                        </div>
+                    </a>
+                    <a class="list" href="newtask.html">
+                        <div class="detail">
+                            <p class="task">Meeting with Scott</p>
+                            <p class="duedate ">11:00 AM</p>
+                            <p><span class="tag work">Work</span></p>
+                        </div>
+                        <div class="action">
+                            <input type="checkbox">
+                        </div>
+                    </a>
+                   -->
                 </div>
             </div>
 
@@ -153,29 +173,24 @@ $tasks = $handler->fetchAll();
     </div>
 
     <script src="./scipt/app.js"></script>
-    <script type="text/javascript">
-        let checkboxs = document.querySelectorAll(".action input");
-
-        for(let checkbox of checkboxs){
-            // console.log(checkbox);
-            checkbox.addEventListener("change", function(e){
-                if(this.checked){
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open("POST", "../core/ajax.php", true); 
-                    xhttp.setRequestHeader("Content-Type", "application/json");
-                    xhttp.onreadystatechange = function() {
-                       if (this.readyState == 4 && this.status == 200) {
-                         // Response
-                         // var response = this.responseText;
-                         console.log(this.responseText);
-                       }
-                    };
-                    var data = {taskid: 1};
-                    xhttp.send(JSON.stringify(data));
+  <script>
+     let checkboxs = window.document.querySelectorAll(".action input");
+     for (let checkbox of checkboxs) {
+        checkbox.addEventListener("change", function(e) {
+            var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "../core/ajax.php", true); 
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Response
+                    var response = this.responseText;
+                    console.log(response);
                 }
-            });
-        }
-
-    </script>
+                };
+                var data = { $task:1 };
+                xhttp.send(JSON.stringify(data));
+                });
+            }
+  </script>
 </body>
 </html>

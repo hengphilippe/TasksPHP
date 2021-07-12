@@ -37,19 +37,16 @@ $categories = $handler->fetchAll();
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-    
     <div class="app">
-
         <div class="container">
             <!-- //Menu -->
             <div class="menu">
                 <span class="material-icons">
                     segment
-                </span>
-                
+                    </span>
+
             </div>
-
-
+                <a href="../logout.php" style="width: 100px; height: 40px;background: rgb(87,134,255); padding: 10px; border-radius: 4px; color: #fff;">logout</a>
             <!-- //Heading -->
             <div class="heading">
                 <h2>Lists</h2>

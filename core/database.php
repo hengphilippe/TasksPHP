@@ -1,9 +1,9 @@
 <?php 
 
 $host = "localhost";
-$dbname = "phpsq5";
+$dbname = "addtask";
 $user= "root";
-$password='$Hello123';
+$password='';
 
 $dns = "mysql:host=$host;dbname=$dbname";
 

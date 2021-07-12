@@ -1,8 +1,10 @@
+
 <?php 
 
 session_start();
 
 require_once('database.php');
+
 	
 	/// register
 	if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
@@ -38,8 +40,9 @@ require_once('database.php');
 
 		$email = $_POST['email'];
 		$password = $_POST['password'];
-
-		$sql = "select * from users where email=:email and password=:password";
+		
+	    $sql = "select * from users where email=:email and password=:password";
+		
 
 		$handler = $conn->prepare($sql);
 		$handler->bindValue(':email',$email);
@@ -59,7 +62,8 @@ require_once('database.php');
 			// 1. redirect to login page with message error
 			// 2. display message error to screen
 			// $_SESSION['error'] = "Error 401! Please login first in order to access that.";
-			$_SESSION['error'] = "Invalid email or password.";
+			$error = "Invalid email or password";
+			$_SESSION['error'] = "<script type='text/javascript'>alert('$error');</script>";
 			header("Location: ../login.php");
 		}
 		

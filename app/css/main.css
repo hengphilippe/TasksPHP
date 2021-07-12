@@ -32,6 +32,7 @@ a {
     font-size: 1.6em;
 }
 
+
 ul li {
     list-style: none;
 }
@@ -330,3 +331,15 @@ ul li {
 .task-name input{
     margin-right: 1em;
 }
+
+
+/* Logout */
+.container  a {
+    width: 100px;
+    height: 40px;
+    background: green !important;
+    padding: 10px;
+    border-radius: 4px;
+    color: #fff;
+}
+
