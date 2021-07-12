@@ -2,6 +2,7 @@
 session_start();
 require_once('../config.php');
 require_once('database.php');
+include('../login.php');
 	function checkemail($str) {
 		return (preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str));
 	}
@@ -23,7 +24,7 @@ require_once('database.php');
 		$name = $_POST['name'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];	
-		echo($name);
+	//echo($name);
 		// not require
 		//$subcribe = $_POST['subcribe'];
 		
@@ -77,9 +78,6 @@ require_once('database.php');
 			}
 		}
 
-	}
-	if(isset($_POST['loginwithfacebook'])){	
-		header("Location: ../display.php");
 	}
 	/// login
 	if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['login'])) {

@@ -181,6 +181,21 @@ label {
 	color: var(--primary-blue);
 	background-color: white;
 }
+.btn-fb {
+	display: block;
+	width: 100%;
+	background-color: var(--primary-blue);
+	color: white;
+	font-weight: 600;
+	font-size: .87rem;
+	border-radius: 8px;
+	border: 1px solid var(--primary-blue);
+	/*right: 16px;
+	/*text-transform: uppercase;*/
+	/*latter-spacing: 0.5px;*/
+	padding: 1rem;
+	cursor: pointer;
+} 
 
 
 

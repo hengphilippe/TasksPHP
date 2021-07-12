@@ -1,8 +1,13 @@
 <?php 
-session_start();
+//session_start();
 require_once('config.php');
-$helper = $fb->getRedirectLoginHelper();
-	$loginUrl = $helper->getLoginUrl('http://localhost:8080/TasksPHP/app/dashboard.php', $permissions);
+if(isset($_SESSION['access_token'])){
+	header("Location: app/dashboard.php");
+	exit();
+}
+$redirectTo = "http://localhost:8080/TasksPHP/callback.php";
+$data = ['email'];
+$fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +35,6 @@ $helper = $fb->getRedirectLoginHelper();
 					<h2>Loign</h2>
 					<div class="login-container">
 						<p>Doesn't have an account yet? <a href="register.php"><strong>Sign Up</strong></a> here</p>
-						
 					</div>
 				</section>
 				<?php if(isset($_SESSION['success_register'])){
@@ -55,9 +59,9 @@ $helper = $fb->getRedirectLoginHelper();
 				</div>
 					<button style="margin:5px" class="btn-submit" type="submit" name="login">Log in</button>
 					<p class="text2" style="font-size: 16px; font-family: 'Roboto Slab', serif; position: static; text-align: center; left: 40%; color: gray">or login with</p>
-					<?php echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';?>
-					<!-- <button style="margin:5px" onclick="window.location=echo''" class="btn-submit" type="submit" name="loginwithfacebook">Facebook</button> -->
-					
+
+					<?php echo '<a href="' . $fullURL . '"><p style="text-align: center;">Facebook</p></a>'; $_SESSION['loginfb']="new";?>
+
 					<!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
 					 -->
 

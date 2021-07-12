@@ -10,15 +10,30 @@ if(!isset($_SESSION['user'])) {
 }
 // get user auth id
 $user_id =  $_SESSION['user']['id'];
-
 $category_id = (isset($_GET['category'])) ? $_GET['category'] : 0;
-$where_query = ($category_id == 0) ? "WHERE user_created=$user_id" : 
-				"WHERE user_created=$user_id AND cat_id=$category_id";
-$sql = "SELECT * FROM tasks $where_query";
+
+// get category desc
+if($category_id !== 0) {
+    $query_cat = "SELECT * FROM categories where id = :id"; 
+    $handler_cat = $conn->prepare($query_cat);
+    $handler_cat->bindParam(":id",$category_id);
+    $handler_cat->execute();
+    $desc_cat = $handler_cat->fetch();
+}
+// print_r($desc_cat);
+
+$where_query = ($category_id == 0) ? 
+                "WHERE tasks.user_created=$user_id" : 
+				"WHERE tasks.user_created=$user_id AND tasks.cat_id=$category_id";
+
+$sql = "SELECT tasks.*, categories.name FROM tasks LEFT JOIN categories 
+        ON tasks.cat_id = categories.id 
+        $where_query";
+
 $handler = $conn->query($sql);
 $tasks = $handler->fetchAll();
 
-// print_r($tasks);
+// echo "<pre>" . print_r($tasks,1) . "</pre>";
 
 ?>
 
@@ -32,6 +47,7 @@ $tasks = $handler->fetchAll();
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons"
     rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> 
 </head>
 <body>
     <div class="app category bg-primary">
@@ -47,11 +63,18 @@ $tasks = $handler->fetchAll();
                     </span>
             </div>
             <div class="sub-heading">
-                <span class="material-icons">
-                    list_alt
-                </span>
-                <h4>All</h4>
-                <p>23 Tasks</p>
+                <?php if($category_id !== 0) : ?>
+                    <span class="material-icons">
+                        <?= $desc_cat->icons ?>
+                    </span>
+                    <h4><?= strtoupper($desc_cat->name) ?></h4>
+                <?php else : ?>
+                    <span class="material-icons">
+                        list_alt
+                    </span>
+                    <h4>ALL</h4>
+                <?php endif; ?>
+                <p><?= count($tasks); ?> Tasks</p>
             </div>
         </div>
 
@@ -83,46 +106,19 @@ $tasks = $handler->fetchAll();
                 	<?php foreach ($tasks as $task) : ?>
                 		<a class="list" href="#">
 	                        <div class="detail">
-	                            <p class="task"><?= $task['title']; ?> </p>
-	                            <p class="duedate "><?= $task['due_date']; ?></p>
-	                            <p><span class="tag work"><?= $task['cat_id'] ?></span></p>
+	                            <p class="task"><?= $task->title; ?> </p>
+	                            <p class="duedate "><?= $task->due_date; ?></p>
+	                            <p style="color: #fff"><span class="tag work" >
+                                    <?= $task->name ?>
+                                        
+                                    </span></p>
 	                        </div>
 	                        <div class="action">
-	                            <input type="checkbox">
+	                            <input type="checkbox" value="<?= $task->id ?>">
 	                        </div>
                     	</a>
                 	<?php endforeach; ?>
-                    <!-- <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Buying Coffee</p>
-                            <p class="duedate ">08:15 AM</p>
-                            <p><span class="tag home">Home</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Upgrade Oracle Database Server</p>
-                            <p class="duedate ">10:00 AM</p>
-                            <p><span class="tag work">Work</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Meeting with Scott</p>
-                            <p class="duedate ">11:00 AM</p>
-                            <p><span class="tag work">Work</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                   -->
+
                 </div>
             </div>
 
@@ -149,13 +145,37 @@ $tasks = $handler->fetchAll();
     
         </div>
         <!-- //Add <button></button> -->
-        <div class="addnew">
+        <a class="addnew" href="./add-task.php?id=<?= $category_id ?>">
             <span class="material-icons">
                 add
             </span>
-        </div>
+        </a>
     </div>
 
     <script src="./scipt/app.js"></script>
+    <script type="text/javascript">
+        let checkboxs = document.querySelectorAll(".action input");
+
+        for(let checkbox of checkboxs){
+            // console.log(checkbox);
+            checkbox.addEventListener("change", function(e){
+                if(this.checked){
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("POST", "../core/ajax.php", true); 
+                    xhttp.setRequestHeader("Content-Type", "application/json");
+                    xhttp.onreadystatechange = function() {
+                       if (this.readyState == 4 && this.status == 200) {
+                         // Response
+                         // var response = this.responseText;
+                         console.log(this.responseText);
+                       }
+                    };
+                    var data = {taskid: 1};
+                    xhttp.send(JSON.stringify(data));
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>

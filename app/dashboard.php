@@ -1,25 +1,43 @@
 <?php 
 session_start();
 require_once('../core/database.php');
+//require_once __DIR__ . '../vendor/autoload.php';
+if(isset($_SESSION['loginfb'])){
+    if(!isset($_SESSION['access_token'])){
+        header("Location: ../login.php");
+        exit();
+    }
+    echo($_SESSION['userData']['id']);
+    echo($_SESSION['userData']['name']);
+    echo($_SESSION['userData']['email']);
+    $sql_all = "SELECT count(1) total FROM tasks";
+    $handler_all = $conn->query($sql_all);
+    $allTasks = $handler_all->fetch(PDO::FETCH_ASSOC);
 
-if(!isset($_SESSION['user'])) {
+    $sql = "SELECT b.* ,a.cat_id,count(a.id) total_task FROM tasks a LEFT JOIN categories b on a.cat_id = b.id GROUP BY a.cat_id";
+
+    $handler = $conn->query($sql);
+    $categories = $handler->fetchAll();
+}
+else if(!isset($_SESSION['user'])) {
 	// response error to login while invalid user
 	// 1. redirect to login page with message error
 	// 2. display message error to screen
     $_SESSION['error'] = "Error 401! Unauthorize access.";
     header("Location: ../login.php");
+}else{
+    // get user auth id
+    $user_id =  $_SESSION['user']['id'];
+    // 
+    $sql_all = "SELECT count(1) total FROM tasks where user_created =$user_id";
+    $handler_all = $conn->query($sql_all);
+    $allTasks = $handler_all->fetch(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT b.* ,a.cat_id,count(a.id) total_task FROM tasks a LEFT JOIN categories b on a.cat_id = b.id WHERE  a.user_created = $user_id GROUP BY a.cat_id";
+
+    $handler = $conn->query($sql);
+    $categories = $handler->fetchAll();
 }
-// get user auth id
-$user_id =  $_SESSION['user']['id'];
-// 
-$sql_all = "SELECT count(1) total FROM tasks where user_created =$user_id";
-$handler_all = $conn->query($sql_all);
-$allTasks = $handler_all->fetch(PDO::FETCH_ASSOC);
-
-$sql = "SELECT b.* ,a.cat_id,count(a.id) total_task FROM tasks a LEFT JOIN categories b on a.cat_id = b.id WHERE  a.user_created = $user_id GROUP BY a.cat_id";
-
-$handler = $conn->query($sql);
-$categories = $handler->fetchAll();
 
 // print_r($categories);
 ?>
@@ -36,14 +54,16 @@ $categories = $handler->fetchAll();
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
+    
     <div class="app">
+
         <div class="container">
             <!-- //Menu -->
             <div class="menu">
                 <span class="material-icons">
                     segment
-                    </span>
-
+                </span>
+                
             </div>
             <a href="../logout.php">logout</a>
             <!-- //Heading -->
@@ -67,9 +87,9 @@ $categories = $handler->fetchAll();
 
                     <?php foreach ($categories as $category) : ?>
                     	<li class="">
-	                        <a href="./tasks.php?category=<?= $category->id; ?>">
+	                        <a href="./tasks.php?category=<?= $category['id']; ?>">
 	                            <span class="material-icons">
-	                                <?= $category->icons ?>
+	                                <?= $category['icons'] ?>
 	                            </span>
 	                            <h4><?= strtoupper($category['name']) ?></h4>
 	                            <p><?= $category['total_task'] ?> Tasks</p>
@@ -125,11 +145,11 @@ $categories = $handler->fetchAll();
             </div>
 
             <!-- //Add <button></button> -->
-            <div class="addnew">
+            <a class="addnew" href="./add-task.php">
                 <span class="material-icons">
                     add
                 </span>
-            </div>
+            </a>
         </div>
     </div>
 </body>

@@ -1,36 +1,52 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-//require_once("callback.php");
-$fb = new \Facebook\Facebook([
-  'app_id' => '{521689182366094}',
-  'app_secret' => '{58233cca83a54bce85f3f3eb861ea07a}',
-  'default_graph_version' => 'v11.0',
-  'default_access_token' => '{access-token}', // optional
-]);
-$helper=$fb->getRedirectLoginHelper();
-$login_url=$helper->getLoginUrl("http://localhost:8080/TasksPHP/config.php");
-try {
-    $accessToken = $helper->getAccessToken();
-	if(isset($accessToken)){
-		echo("Hello");
-		$_SESSION['access_token']=(string) $accessToken;
-		header('Location: display.php');
-	};
-}catch(Exception $e){
-    echo $e->getTraceAsString();
+session_start();
+
+if(!isset($_SESSION['access_token'])){
+	header("Location: newLogin.php");
+	exit();
 }
-if(isset($_SESSION['access_token'])){
-	try{
-		echo("Hello");
-		$fb->setDefaultAccessToken($_SESSION['access_token']);
-		$res=$fb->get('/me');
-		$user=$res->getGraphUser();
-		$me = $res->getGraphUser();
-		echo($res);
-		echo 'Logged in as ' . $me->getName();
-		echo($user);
-	}catch(Exception $e){
-		echo $e->getTraceAsString();
-		echo("something wrong");
-	}
-}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<title>My profile</title>
+</head>
+<body>
+	
+<div class="container" style="margin-top: 100px">
+	<div class="row justify-content-center">
+		<div class="col-md-3">
+			<img src="<?php echo $_SESSION['userData']['picture']['url'] ?>">
+		</div>
+
+		<div class="col-md-9">
+			<table class="table table-hover table-bordered">
+				<tbody>
+					<tr>
+						<td>ID</td>
+						<td><?php echo $_SESSION['userData']['id'] ?></td>
+					</tr>
+					<tr>
+						<td>First Name</td>
+						<td><?php echo $_SESSION['userData']['name'] ?></td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td><?php echo $_SESSION['userData']['email'] ?></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
