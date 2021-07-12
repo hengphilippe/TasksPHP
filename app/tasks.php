@@ -13,12 +13,18 @@ $user_id =  $_SESSION['user']['id'];
 
 $category_id = (isset($_GET['category'])) ? $_GET['category'] : 0;
 $where_query = ($category_id == 0) ? "WHERE user_created=$user_id" : 
-				"WHERE user_created=$user_id AND cat_id=$category_id";
-$sql = "SELECT * FROM tasks $where_query";
+				"WHERE user_created=$user_id AND cat_id=$category_id ";
+$status_no = " AND status=0";
+$status_yes = " AND status=1";
+
+$sql = "SELECT * FROM tasks $where_query $status_no ";
 $handler = $conn->query($sql);
 $tasks = $handler->fetchAll();
 
-// print_r($tasks);
+$sql_sec = "SELECT * FROM tasks $where_query $status_yes ";
+$handler_sec = $conn->query($sql_sec);
+$tasks_complete = $handler_sec->fetchAll();
+$all_task = count($tasks);
 
 ?>
 
@@ -51,35 +57,17 @@ $tasks = $handler->fetchAll();
                     list_alt
                 </span>
                 <h4>All</h4>
-                <p>23 Tasks</p>
+                <p> <?=$all_task ?>Tasks</p>
             </div>
         </div>
 
         <div class="task-list">
-            <!-- <div class="list-group">
-                <div class="title">
-                    <span>Late</span>
-                </div>
-                <div class="lists">
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Update Slide For E-Commerce Classs & Drink More coffee</p>
-                            <p class="duedate late">20:15 PM April 29</p>
-                            <p><span class="tag study">School</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                  
-                </div>
-            </div> -->
-
             <div class="list-group">
                 <div class="title">
                     <span>Today</span>
                 </div>
                 <div class="lists">
+                    <form method="POST" id="update_status" action="../core/task.php">
                 	<?php foreach ($tasks as $task) : ?>
                 		<a class="list" href="#">
 	                        <div class="detail">
@@ -88,41 +76,12 @@ $tasks = $handler->fetchAll();
 	                            <p><span class="tag work"><?= $task->cat_id ?></span></p>
 	                        </div>
 	                        <div class="action">
-	                            <input type="checkbox">
+	                            <input type="checkbox" name="task_id" class="done" value="<?= $task->id?>">
+                                <input type="hidden" name="status" value="1">
 	                        </div>
                     	</a>
                 	<?php endforeach; ?>
-                    <!-- <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Buying Coffee</p>
-                            <p class="duedate ">08:15 AM</p>
-                            <p><span class="tag home">Home</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Upgrade Oracle Database Server</p>
-                            <p class="duedate ">10:00 AM</p>
-                            <p><span class="tag work">Work</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">Meeting with Scott</p>
-                            <p class="duedate ">11:00 AM</p>
-                            <p><span class="tag work">Work</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                   -->
+                    </form>
                 </div>
             </div>
 
@@ -130,32 +89,50 @@ $tasks = $handler->fetchAll();
                 <div class="title">
                     <span>Done</span>
                 </div>
-                <!-- <div class="lists">
-                    <a class="list" href="newtask.html">
-                        <div class="detail">
-                            <p class="task">DailyBackup Procesdure</p>
-                            <p class="duedate">20:15 PM April 29</p>
-                            <p><span class="tag work">Work</span></p>
-                        </div>
-                        <div class="action">
-                            <input type="checkbox">
-                        </div>
-                    </a>
-                  
-                </div> -->
+                <div class="lists">
+                    <form method="POST" id="update_status_undone" action="../core/task.php">
+                	<?php foreach ($tasks_complete as $task) : ?>
+                		<a class="list" href="#">
+	                        <div class="detail">
+	                            <p class="task"><?= $task->title; ?> </p>
+	                            <p class="duedate "><?= $task->due_date; ?></p>
+	                            <p><span class="tag work"><?= $task->cat_id ?></span></p>
+	                        </div>
+	                        <div class="action">
+	                            <input type="checkbox" name="task_id" class="undone" value="<?= $task->id?>">
+	                            <input  type="hidden" name="status" value="0">
+	                        </div>
+                    	</a>
+                	<?php endforeach; ?>
+                    </form>
+                </div>
+
+
+
             </div>
         </div>
-        <div class="mask">
-    
-        </div>
         <!-- //Add <button></button> -->
-        <div class="addnew">
-            <span class="material-icons">
-                add
-            </span>
-        </div>
+        <a href="add_task.php?category=<?= $category_id ?>">
+            <div class="addnew">
+                
+                <span class="material-icons">
+                    add
+                </span>
+            </div>
+        </a>
+        
     </div>
-
-    <script src="./scipt/app.js"></script>
+<!-- 
+    <script src="./scipt/app.js"></script> -->
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $('.undone').click(()=>{
+        $('#update_status_undone').submit();
+    })
+    $('.done').click(()=>{
+        $('#update_status').submit();
+    })
+</script>

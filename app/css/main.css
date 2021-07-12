@@ -21,6 +21,7 @@ a {
 
 .menu {
     margin: 1em;
+    position: relative;
 }
 .menu span {
     font-size: 2em;
@@ -42,6 +43,7 @@ ul li {
     margin: 0;
     padding: 0;
     display: grid;
+    /* grid-template-columns: auto auto auto; */
     grid-template-columns: repeat(auto-fit, minmax(10rem, 2fr));
 }
 .categoty ul li {
@@ -276,7 +278,15 @@ ul li {
     caret-color: rgb(87,134,255);
    
 }
-
+.add_task_bg{
+    
+    height: 100vh;
+    background: linear-gradient(
+		rgba(0, 0, 0, 0),
+		rgba(0, 0, 0, 0)),
+		url('https://blog.inlumi.com/hubfs/blog/task-manager.jpg');
+	background-size: cover;
+}
 .task-body ul {
     margin-top:2em;
     padding: 0;
@@ -330,4 +340,84 @@ ul li {
 }
 .task-name input{
     margin-right: 1em;
+}
+
+
+/* category */
+
+#add_cat{
+    cursor: pointer;
+}
+.modal-bg{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    position:absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    padding: 0px 10px;
+    width: 300px;
+    height: 400px;
+    border-radius: 8px;
+    position: relative;
+    background-color: white;
+}
+.modal-content input{
+    display: block;
+    width: 95%;
+
+}
+.modal-content label{
+    font-weight: 500;
+
+}
+.close-modal{
+    transform: rotate(45deg);
+    cursor: pointer;
+    position: absolute;
+    top:0px;
+    right:10px;
+    font-size: 30px;
+}
+
+.menu-content{
+    background-color: rgb(87,134,255);
+    border-radius: 8px;
+    width: 25%;
+    height: 35px;
+    position: absolute;
+    top:0px;
+    left: 40px;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    transition: all ease-in-out 1s;
+}
+
+#add_cat:hover,#btn-login:hover{
+    font-weight: 600;
+}
+
+#cat{
+    margin-top: 10px;
+    width: 100px;
+    font-size: 16px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+.btn-add{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    width: 80%;
+    height: 30px;
+    background-color:#233975;
+    color: white;
+    border:none;
+    cursor: pointer;
 }

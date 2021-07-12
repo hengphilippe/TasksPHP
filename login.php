@@ -1,4 +1,5 @@
 <?php 
+require_once('config.php');
 session_start();
 
 ?>
@@ -42,6 +43,7 @@ session_start();
 				</div>
 
 				<button class="btn-submit" type="submit" name="login">Log in</button>
+				<a class="btn-submit" style="width: 90%;text-align:center;" name="login-google" href="<?= $glogin; ?>">Log in with google</a>
 				
 			</form>
 
@@ -50,6 +52,11 @@ session_start();
 		<?php if(isset($_SESSION['success_register'])){
 				echo "<div class='text-success'><p>" . $_SESSION['success_register'] . "</p></div>";
 				unset($_SESSION['success_register']);
+				} 
+			?>
+		<?php if(isset($_SESSION['verify'])){
+				echo "<div class='text-success'><p>" . $_SESSION['verify'] . "</p></div>";
+				unset($_SESSION['verify']);
 				} 
 			?>
 		<?php if(isset($_SESSION['error'])){
