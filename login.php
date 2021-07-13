@@ -34,7 +34,7 @@ $fullURL = $handler->getLoginUrl($redirectTo, $data);
 				<section class="copy">
 					<h2>Loign</h2>
 					<div class="login-container">
-						<p>Don't have an account yet? <a href="register.php"><strong>Sign Up</strong></a> here</p>
+						<p>Doesn't have an account yet? <a href="register.php"><strong>Sign Up</strong></a> here</p>
 					</div>
 				</section>
 				<?php if(isset($_SESSION['success_register'])){
@@ -47,7 +47,7 @@ $fullURL = $handler->getLoginUrl($redirectTo, $data);
 					}
 				?>
 				<div class="frm-inpt email">
-					<label>Email:</label>
+					<label>Email Address:</label>
 					<input type="email" name="email">
 				</div>
 				<div class="frm-inpt password">
@@ -57,7 +57,7 @@ $fullURL = $handler->getLoginUrl($redirectTo, $data);
 					visibility
 					</span> -->
 				</div>
-					<button style="margin:5px" class="btn-submit" type="submit" name="login">Log In</button>
+					<button style="margin:5px" class="btn-submit" type="submit" name="login">Log in</button>
 					<p class="text2" style="font-size: 16px; font-family: 'Roboto Slab', serif; position: static; text-align: center; left: 40%; color: gray">or login with</p>
 
 					<?php echo '<a href="' . $fullURL . '"><p style="text-align: center;">Facebook</p></a>'; $_SESSION['loginfb']="new";?>
