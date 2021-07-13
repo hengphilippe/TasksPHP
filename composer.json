@@ -1,0 +1,6 @@
+{
+    "require": {
+        "zohocrm/php-sdk-archive": "^2.2",
+        "facebook/graph-sdk": "^5.7"
+    }
+}
